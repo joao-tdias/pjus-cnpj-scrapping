@@ -29,10 +29,12 @@ if __name__ == '__main__':
 
         try:
             output = pd.read_csv(path_output_cnpjs)
+            cnpjs_collected = list(output['CNPJ'])
         except Exception as e:
             output = pd.DataFrame()
+            cnpjs_collected = []
 
-        if int(cnpj) not in list(output['CNPJ']):
+        if int(cnpj) not in cnpjs_collected:
             crawl_cnpj(cnpj)
             df = main(os.path.join(DOWNLOAD_FOLDER, cnpj+'.htm'), cnpj)
             new_df = pd.concat([output, df], ignore_index=True)
