@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
 import pandas as pd
-from cnpj_scrapping import open_page, solve_captcha, click_search, search_cnpj, wdriver, collect_data, get_time_now
+from selenium_scrapping.cnpj_scrapping import open_page, click_search, wdriver, get_time_now
 
 def test_get_time_now():
     time_now = get_time_now()
@@ -14,7 +14,7 @@ def test_get_time_now():
 
 def test_if_webdriver_was_created_right():
     driver = wdriver()
-    assert isinstance(driver, webdriver.Chrome)
+    assert isinstance(driver, webdriver.Firefox)
     driver.quit()
 
 def test_if_driver_open_any_page():
@@ -35,18 +35,3 @@ def test_if_clicking_search_button_works_fine():
 
     click_search(driver)
     driver.quit()
-
-# def test_collect_data():
-#     driver = wdriver()
-#     open_page(driver, 'https://example.com')
-
-#     driver.execute_script("""
-#     var div = document.createElement("div");
-#     div.id = "data";
-#     div.innerText = "Test data";
-#     document.body.appendChild(div);
-#     """)
-
-#     collect_data(driver)
-#     # Verifique se os dados foram coletados corretamente
-#     driver.quit()
