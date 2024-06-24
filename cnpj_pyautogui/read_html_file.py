@@ -65,9 +65,8 @@ def extract_fonts(soup):
         return table.find_all('font')
     except Exception as e:
         erro = soup.find_all('p')
-        logging.error("Erro ao extrair fontes do HTML: {e}")
+        logging.error(f"Erro ao extrair fontes do HTML: {e}")
         return erro[1].text
-        raise
 
 def clean_fonts(fonts, dont_store):
     try:
@@ -83,7 +82,7 @@ def clean_fonts(fonts, dont_store):
 
         return cleaned_fonts, remove_list
     except Exception as e:
-        logging.error("Erro ao limpar fontes: {e}")
+        logging.error(f"Erro ao limpar fontes: {e}")
         raise
 
 def extract_data_from_fonts(fonts):
@@ -97,7 +96,7 @@ def extract_data_from_fonts(fonts):
 
         return keys, values
     except Exception as e:
-        logging.error("Erro ao extrair dados das fontes: {e}")
+        logging.error(f"Erro ao extrair dados das fontes: {e}")
         raise
 
 def create_dataframe(keys, values):
@@ -107,7 +106,7 @@ def create_dataframe(keys, values):
             data_dict[key].append(value)
         return pd.DataFrame(data_dict)
     except Exception as e:
-        logging.error("Erro ao criar DataFrame: {e}")
+        logging.error(f"Erro ao criar DataFrame: {e}")
         raise
 
 def main(file_path, cnpj):
@@ -117,7 +116,7 @@ def main(file_path, cnpj):
         fonts = extract_fonts(soup)
         if isinstance(fonts, str):
             df = pd.DataFrame()
-            df.insert(0, 'ERRO', fonts)
+            df['ERRO'] = [fonts]
         else:
             cleaned_fonts, _ = clean_fonts(fonts, DONT_STORE)
             keys, values = extract_data_from_fonts(cleaned_fonts)

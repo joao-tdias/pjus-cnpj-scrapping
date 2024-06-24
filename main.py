@@ -1,13 +1,16 @@
 import pandas as pd
 import logging
 import re
-from crawl_web import crawl_cnpj
-from read_html_file import main, remove_unnamed_columns
 import os
 import sys
 
 ROOT = os.path.dirname(os.path.realpath(__file__))
 DOWNLOAD_FOLDER = os.path.join(ROOT, 'download_pages')
+AUTOGUI_FOLDER = os.path.join(ROOT, 'cnpj-pyautogui')
+sys.path.insert(0, AUTOGUI_FOLDER)
+
+from cnpj_pyautogui.crawl_web import crawl_cnpj
+from cnpj_pyautogui.read_html_file import main, remove_unnamed_columns
 
 def read_cnpjs(path):
     try:
@@ -23,7 +26,12 @@ if __name__ == '__main__':
     path_output_cnpjs = 'output.csv'
     cnpjs_to_search = read_cnpjs(path_input_cnpjs)
     for cnpj in cnpjs_to_search['treated_cnpjs']:
-        output = pd.read_csv(path_output_cnpjs)
+
+        try:
+            output = pd.read_csv(path_output_cnpjs)
+        except Exception as e:
+            output = pd.DataFrame()
+
         if int(cnpj) not in list(output['CNPJ']):
             crawl_cnpj(cnpj)
             df = main(os.path.join(DOWNLOAD_FOLDER, cnpj+'.htm'), cnpj)

@@ -87,13 +87,6 @@ def click_search(driver):
     time.sleep(5)
     wait = WebDriverWait(driver, 10)
     search_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[@type='submit']")))
-    # cookies = driver.get_cookies()
-    # new_cookies = [{**cookie, 'secure': True} for cookie in cookies]
-    # driver.delete_all_cookies()
-
-    # for cookie in new_cookies:
-    #     driver.add_cookie(cookie)
-
 
     search_button.click()
     print('click search')

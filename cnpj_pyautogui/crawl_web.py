@@ -88,7 +88,6 @@ def save_html(cnpj):
         raise
 
 def crawl_cnpj(cnpj):
-    """Realiza o crawl de todos os CNPJs fornecidos."""
     logging.info(f"Iniciando processamento do CNPJ: {cnpj}")
     access_new_url(URL_BASE)
     insert_cnpj(cnpj)
