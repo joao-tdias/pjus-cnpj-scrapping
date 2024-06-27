@@ -6,6 +6,7 @@ import sys
 
 ROOT = os.path.dirname(os.path.realpath(__file__))
 DOWNLOAD_FOLDER = os.path.join(ROOT, 'download_pages')
+FILES_FOLDER = os.path.join(ROOT, 'files')
 AUTOGUI_FOLDER = os.path.join(ROOT, 'cnpj-pyautogui')
 sys.path.insert(0, AUTOGUI_FOLDER)
 
@@ -24,11 +25,11 @@ def read_cnpjs(path):
 if __name__ == '__main__':
     path_input_cnpjs = 'input.csv'
     path_output_cnpjs = 'output.csv'
-    cnpjs_to_search = read_cnpjs(path_input_cnpjs)
+    cnpjs_to_search = read_cnpjs(os.path.join(FILES_FOLDER, path_input_cnpjs))
     for cnpj in cnpjs_to_search['treated_cnpjs']:
 
         try:
-            output = pd.read_csv(path_output_cnpjs)
+            output = pd.read_csv(os.path.join(FILES_FOLDER, path_output_cnpjs))
             cnpjs_collected = list(output['CNPJ'])
         except Exception as e:
             output = pd.DataFrame()
@@ -39,7 +40,7 @@ if __name__ == '__main__':
             df = main(os.path.join(DOWNLOAD_FOLDER, cnpj+'.htm'), cnpj)
             new_df = pd.concat([output, df], ignore_index=True)
             new_df = remove_unnamed_columns(new_df)
-            new_df.to_csv('output.csv')
+            new_df.to_csv(os.path.join(FILES_FOLDER, 'output2.csv'))
         else:
             print('CNPJ já coletado', cnpj)
 

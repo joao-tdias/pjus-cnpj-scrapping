@@ -103,11 +103,8 @@ def search_cnpj(driver, url_base, cnpj):
 
     print('url mudou')
 
-
 def collect_data(driver):
     ...
-
-
 
 if __name__ == '__main__':
     path_cnpjs = 'input.csv'
